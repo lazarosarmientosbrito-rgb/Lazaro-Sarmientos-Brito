@@ -1,0 +1,6 @@
+{
+  "name": "Vendedor IA",
+  "description": "Tu centro de control comercial con IA",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Root companies collection: allows get, list, and multi-company sync
+    match /companies/{companyId} {
+      allow get, write, delete: if isValidId(companyId);
+      allow list: if true;
+      match /{subcollection=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Root businesses collection: allows get, list, and sync
+    match /businesses/{businessId} {
+      allow get, write, delete: if isValidId(businessId);
+      allow list: if true;
+      match /{subcollection=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Root negocios collection: allows get, list, and sync
+    match /negocios/{negocioId} {
+      allow get, write, delete: if isValidId(negocioId);
+      allow list: if true;
+      match /{subcollection=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // User-isolated businesses: users/{userId}/businesses/{businessId}
+    match /users/{userId} {
+      allow read, write: if true;
+
+      match /companies/{companyId} {
+        allow get, write, delete: if isValidId(companyId);
+        allow list: if true;
+        match /{subcollection=**} {
+          allow read, write: if true;
+        }
+      }
+
+      match /businesses/{businessId} {
+        allow get, write, delete: if isValidId(businessId);
+        allow list: if true;
+        match /{subcollection=**} {
+          allow read, write: if true;
+        }
+      }
+
+      match /{subcollection=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Projects collection for backward compatibility
+    match /projects/{projectId} {
+      allow get, write, delete: if isValidId(projectId);
+      allow list: if true;
+      match /{subcollection=**} {
+        allow read, write: if true;
+      }
+    }
+
+    // Connection testing
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

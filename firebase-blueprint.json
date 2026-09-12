@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "Business": {
+      "title": "Business",
+      "description": "Multi-tenant business configuration and catalog store",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier of the business" },
+        "name": { "type": "string", "description": "Name of the business" },
+        "businessType": { "type": "string", "description": "Business sector or category" },
+        "category": { "type": "string", "description": "Industry category" },
+        "description": { "type": "string", "description": "Business overview and description" },
+        "createdAt": { "type": "string", "description": "Creation ISO date timestamp" },
+        "updatedAt": { "type": "string", "description": "Last update ISO date timestamp" },
+        "status": { "type": "string", "description": "Status: ativo or inativo" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "config": { "type": "object", "description": "Complete business configuration" },
+        "catalog": { "type": "array", "description": "List of products with stock, prices, photos, and variations" },
+        "services": { "type": "array", "description": "List of bookable services and durations" },
+        "professionals": { "type": "array", "description": "List of staff members and schedules" },
+        "workingHours": { "type": "object", "description": "Working hours and blocked slots configuration" },
+        "appointments": { "type": "array", "description": "Customer bookings and appointments" },
+        "faqs": { "type": "array", "description": "Frequently asked questions" },
+        "aiKnowledge": { "type": "array", "description": "AI business rules and knowledge base items" },
+        "unansweredQuestions": { "type": "array", "description": "Logged customer questions that need answers" },
+        "leads": { "type": "array", "description": "Captured customer leads, orders, and contact info" },
+        "orders": { "type": "array", "description": "Customer orders with payment methods and discounts" }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "firestore": {
+    "/companies/{companyId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "Multi-company stores and catalogs"
+    },
+    "/users/{userId}/companies/{companyId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "User isolated company stores"
+    },
+    "/users/{userId}/businesses/{businessId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "User-isolated business projects and catalogs"
+    },
+    "/businesses/{businessId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "Global/Shared business projects"
+    },
+    "/negocios/{negocioId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "Negocios y configuraciones independientes"
+    }
+  }
+}
